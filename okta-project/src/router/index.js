@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { LoginCallback, navigationGuard } from '@okta/okta-vue'
 import LoggedOutComponent from '@/components/LoggedOut'
 import LoggedInComponent from '@/components/LoggedIn'
+import Profile from '@/components/Profile'
 // import Auth from '@okta/okta-vue'
 
 
@@ -19,6 +20,11 @@ const router = createRouter({
     path: '/loggedOut',
     name: 'LoggedOut',
     component: LoggedOutComponent
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   },
   {
     path: '/login/callback',

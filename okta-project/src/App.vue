@@ -1,15 +1,21 @@
 <template>
   <div>
-    <nav class="green">
-      <div class="nav-wrapper">
-        <router-link to="/loggedOut" class="header item" style="display: flex; align-items: center;">
+    <nav class="ui inverted top fixed menu">
+      <div class="ui container" >
+        <router-link to="/loggedOut" class="header item" style="display: inline-flex; align-items: center;">
           <img class="ui mini image" src="./assets/logo.png" style="width: 60px; height: 60px;">
           <span style="font-size: 20px; margin-left: 10px;">Baton Fagaras</span>
         </router-link>
         <ul class="right">
           <li><a @click.prevent="login" v-if="!activeUser">Login</a></li>
-          <li><a @click.prevent="logout" v-if="activeUser" style="background-color: green;">Logout</a></li>
+          <li><a @click.prevent="logout" v-if="activeUser">Logout</a></li>
         </ul>
+        <router-link to="/hello" class ="middle" style="display: inline-flex; align-items: center;">
+          Profil
+        </router-link>
+        <!-- <ul class="middle">
+          <li><a @click.prevent="profile" v-if="activeUser.name == 'Leo Parvan'">Profil</a></li>
+        </ul> -->
       </div>
     </nav>
     <router-view />
@@ -20,10 +26,12 @@
 export default {
   name: 'App',
   data() {
-    return {
-      activeUser: null
-    }
-  },
+      return {
+        activeUser: {
+          name: null
+        },
+      }
+    },
   async created() {
     await this.refreshActiveUser()
   },
@@ -39,11 +47,9 @@ export default {
     },
     async logout() {
       await this.$auth.signOut()
-      // await this.refreshActiveUser()
-      // this.$router.push('/loggedout')
     },
-    home(endpoint) {
-      this.$router.push(endpoint);
+    profile() {
+      this.$router.push('/');
     }
   }
 }
