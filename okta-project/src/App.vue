@@ -1,21 +1,19 @@
 <template>
   <div>
-    <nav class="ui inverted top fixed menu">
-      <div class="ui container" >
-        <router-link to="/loggedOut" class="header item" style="display: inline-flex; align-items: center;">
-          <img class="ui mini image" src="./assets/logo.png" style="width: 60px; height: 60px;">
-          <span style="font-size: 20px; margin-left: 10px;">Baton Fagaras</span>
+    <nav class="ui inverted top fixed menu" style="background-color: cornflowerblue;">
+      <div class="ui container">
+        <router-link v-if="!activeUser" to="/home" class="header item" style="display: inline-flex; align-items: center;">
+          <img class="ui mini image" src="./assets/fagaras.png" style="width: 60px; height: 60px;">
+          <span style="font-size: 20px; margin-left: 10px;">Făgăraș</span>
+        </router-link>
+        <router-link v-else to="/" class="header item" style="display: inline-flex; align-items: center;">
+          <img class="ui mini image" src="./assets/fagaras.png" style="width: 60px; height: 60px;">
+          <span style="font-size: 20px; margin-left: 10px;">Făgăraș</span>
         </router-link>
         <ul class="right">
-          <li><a @click.prevent="login" v-if="!activeUser">Login</a></li>
-          <li><a @click.prevent="logout" v-if="activeUser">Logout</a></li>
+          <li><a @click.prevent="login" v-if="activeUser.name == null">Login</a></li>
+          <li><a class="item" v-if="activeUser.name != null" v-on:click="logout()">Logout</a></li>
         </ul>
-        <router-link to="/hello" class ="middle" style="display: inline-flex; align-items: center;">
-          Profil
-        </router-link>
-        <!-- <ul class="middle">
-          <li><a @click.prevent="profile" v-if="activeUser.name == 'Leo Parvan'">Profil</a></li>
-        </ul> -->
       </div>
     </nav>
     <router-view />
@@ -23,15 +21,17 @@
 </template>
 
 <script>
+import router from './router'
+
 export default {
   name: 'App',
   data() {
-      return {
-        activeUser: {
-          name: null
-        },
-      }
-    },
+    return {
+      activeUser: {
+        name: null
+      },
+    }
+  },
   async created() {
     await this.refreshActiveUser()
   },
@@ -44,9 +44,16 @@ export default {
     },
     async refreshActiveUser() {
       this.activeUser = await this.$auth.getUser()
+
     },
     async logout() {
-      await this.$auth.signOut()
+      try {
+        await this.$auth.signOut()
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      }
+
     },
     profile() {
       this.$router.push('/');
