@@ -18,7 +18,7 @@
           class="drivers license outline icon"
       >
       </i>
-      <h1 style="font-family:Georgia, 'Times New Roman', Times, serif; font-size: 20px; display: flex;">
+      <h1 style="font-family:Georgia, 'Times New Roman', Times, serif; font-size: 17px; display: flex;">
       My User Profile (ID Token Claims)
     </h1>
     </h1>
